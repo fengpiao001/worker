@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- https://github.com/spring-projects/spring-boot/blob/v1.5.13.RELEASE/spring-boot/src/main/resources/org/springframework/boot/logging/logback/defaults.xml -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <property name="APP_NAME" value="worker" />
+    <property name="LOG_PATH" value="${user.home}/${APP_NAME}/logs" />
+    <property name="LOG_FILE" value="${LOG_PATH}/application.log" />
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level|%X{traceId}|%m%n" />
+
+
+    <appender name="access_log_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/access_log.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${LOG_PATH}/access_log.log.%d{yyyyMMdd}
+            </fileNamePattern>
+            <maxHistory>2</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="async_access_log_appender" class="ch.qos.logback.classic.AsyncAppender">
+        <neverBlock>true</neverBlock>
+        <appender-ref ref="access_log_appender"/>
+    </appender>
+
+    <logger name="access_log" level="info" additivity="false">
+        <appender-ref ref="async_access_log_appender"/>
+    </logger>
+
+    <appender name="applicationAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${user.home}/${APP_NAME}/logs/application.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${user.home}/${APP_NAME}/logs/application.log.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name="applicationAppenderAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="applicationAppender" />
+    </appender>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="applicationAppenderAsync" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
