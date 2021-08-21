@@ -3,6 +3,7 @@ package com.apising.worker.config;
 import com.apising.worker.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -18,14 +19,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         super.addInterceptors(registry);
     }
 
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowedOrigins("null")
-//                .allowedMethods("POST","GET","OPTION","PUT","DELETE")
-//                .allowedHeaders("*")
-//                .maxAge(3600)
-//                .allowCredentials(true);
-//        super.addCorsMappings(registry);
-//    }
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("null")
+                .allowedMethods("POST","GET","OPTION","PUT","DELETE")
+                .allowedHeaders("*")
+                .maxAge(3600)
+                .allowCredentials(true);
+        super.addCorsMappings(registry);
+    }
 }
