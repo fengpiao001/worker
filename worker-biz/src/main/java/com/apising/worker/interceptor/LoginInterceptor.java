@@ -58,8 +58,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         PrintWriter pw = response.getWriter();
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-//        response.setHeader("Access-Control-Allow-Origin","*");
-        response.setHeader("Access-Control-Allow-Origin","null");
+        response.setHeader("Access-Control-Allow-Origin","*");
+//        response.setHeader("Access-Control-Allow-Origin","null");
         response.setHeader("Access-Control-Max-Age","3600");
         response.setHeader("Access-Control-Allow-Methods","*");
         response.setHeader("Access-Control-Allow-Headers","*");
