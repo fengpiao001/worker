@@ -3,6 +3,8 @@ package com.apising.worker.util;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import java.util.List;
+
 public class PageUtil {
 
     public static IPage pageToMybatisPage(com.apising.common.lang.domain.Page page){
@@ -14,7 +16,7 @@ public class PageUtil {
     }
 
 
-    public static <T> com.apising.common.lang.domain.Page<T> mybatisPageToPage(IPage<T> mybatisPage){
+    public static <T> com.apising.common.lang.domain.Page<List<T>> mybatisPageToPage(IPage<T> mybatisPage){
         if(mybatisPage == null){
             return null;
         }

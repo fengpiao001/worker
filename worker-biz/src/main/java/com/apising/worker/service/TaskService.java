@@ -1,8 +1,10 @@
 package com.apising.worker.service;
 
+import com.apising.common.lang.domain.Page;
 import com.apising.worker.domain.Task;
 import com.apising.worker.domain.TaskDetail;
 import com.apising.worker.domain.vo.TaskDetailVO;
+import com.apising.worker.domain.vo.TaskQuery;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -36,5 +38,12 @@ public interface TaskService extends IService<Task> {
      * @return
      */
     public List<TaskDetailVO> getTaskDetailByTaskId(Long taskId);
+
+    /**
+     * 按条件查询任务
+     * @param taskQuery
+     * @return
+     */
+    public Page<List<Task>> list(TaskQuery taskQuery);
 
 }

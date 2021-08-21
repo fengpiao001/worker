@@ -1,6 +1,7 @@
 package com.apising.worker.service.impl;
 
 import com.apising.common.lang.convertor.BaseConvertor;
+import com.apising.common.lang.domain.Page;
 import com.apising.common.lang.exception.XException;
 import com.apising.common.lang.session.SessionLocal;
 import com.apising.common.lang.util.ListUtil;
@@ -9,11 +10,14 @@ import com.apising.worker.domain.TaskDetail;
 import com.apising.worker.domain.Worker;
 import com.apising.worker.domain.enums.TaskStatus;
 import com.apising.worker.domain.vo.TaskDetailVO;
+import com.apising.worker.domain.vo.TaskQuery;
 import com.apising.worker.mapper.TaskDetailMapper;
 import com.apising.worker.mapper.TaskMapper;
 import com.apising.worker.mapper.WorkerMapper;
 import com.apising.worker.service.TaskService;
+import com.apising.worker.util.PageUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,5 +138,14 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
         queryWrapper.eq("task_id",taskId);
         List<TaskDetail> list = taskDetailMapper.selectList(queryWrapper);
         return list.stream().filter(e->!TaskStatus.stoped.equal(e.getTaskStatus())).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<List<Task>> list(TaskQuery query) {
+        QueryWrapper<Task> queryWrapper = new QueryWrapper<>();
+
+        IPage<Task> iPage = taskMapper.selectPage(PageUtil.pageToMybatisPage(query), queryWrapper);
+
+        return PageUtil.mybatisPageToPage(iPage);
     }
 }
