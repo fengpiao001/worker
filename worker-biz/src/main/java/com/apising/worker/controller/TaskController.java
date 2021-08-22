@@ -42,6 +42,12 @@ public class TaskController {
         return Result.success(null);
     }
 
+    @RequestMapping("/cancelApplyTask")
+    public Result<String> cancelApplyTask(Long taskId){
+        taskService.cancelApplyTask(taskId);
+        return Result.success(null);
+    }
+
 
     @RequestMapping("/taskDetailsByTaskId")
     public Result<List<TaskDetailVO>> taskDetailsByTaskId(Long taskId){

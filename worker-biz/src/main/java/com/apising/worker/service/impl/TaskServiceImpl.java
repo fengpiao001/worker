@@ -96,7 +96,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
         }
         Long workerId = SessionLocal.getRequireWorkerId();
         detailList.forEach(e ->{
-            if(workerId.equals(detailList)){
+            if(workerId.equals(e.getWorkerId())){
                 throw new XException().setShowText("您已申请了该任务");
             }
         });
@@ -177,5 +177,16 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
             }
         }
         taskVO.setIsEnlist(isEnlist);
+    }
+
+    @Override
+    public void cancelApplyTask(Long taskId) {
+        List<TaskDetail> detailList = getTaskDetailListByTaskId(taskId);
+        TaskDetail taskDetail = detailList.stream()
+                .filter(e->SessionLocal.getRequireWorkerId().equals(e.getWorkerId()))
+                .findFirst().get();
+        Assert.notNull(taskDetail,"您还没有报名该任务");
+        taskDetail.setTaskStatus(TaskStatus.stoped.getIndex());
+        taskDetailMapper.updateById(taskDetail);
     }
 }

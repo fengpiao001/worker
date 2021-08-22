@@ -54,4 +54,10 @@ public interface TaskService extends IService<Task> {
      */
     public TaskVO detail(Long id);
 
+    /**
+     * 取消申请任务
+     * @param taskId
+     */
+    public void cancelApplyTask(Long taskId);
+
 }
