@@ -6,6 +6,7 @@ import com.apising.common.lang.domain.Result;
 import com.apising.worker.domain.Task;
 import com.apising.worker.domain.vo.TaskDetailVO;
 import com.apising.worker.domain.vo.TaskQuery;
+import com.apising.worker.domain.vo.TaskVO;
 import com.apising.worker.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,7 +54,7 @@ public class TaskController {
     }
 
     @RequestMapping("/detail")
-    public Result<Task> detail(Long id){
+    public Result<TaskVO> detail(Long id){
         return Result.success(taskService.detail(id));
     }
 
