@@ -143,7 +143,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
     @Override
     public Page<List<Task>> list(TaskQuery query) {
         QueryWrapper<Task> queryWrapper = new QueryWrapper<>();
-
+        queryWrapper.orderByDesc("id");
         IPage<Task> iPage = taskMapper.selectPage(PageUtil.pageToMybatisPage(query), queryWrapper);
 
         return PageUtil.mybatisPageToPage(iPage);
