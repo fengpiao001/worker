@@ -2,6 +2,7 @@ package com.apising.worker.service.impl;
 
 import com.apising.common.lang.convertor.BaseConvertor;
 import com.apising.common.lang.domain.Page;
+import com.apising.common.lang.enums.YesNo;
 import com.apising.common.lang.exception.XException;
 import com.apising.common.lang.session.SessionLocal;
 import com.apising.common.lang.util.ListUtil;
@@ -167,6 +168,14 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
 
 
     private void completeVO(TaskVO taskVO){
-
+        List<TaskDetail> detailList = this.getTaskDetailListByTaskId(taskVO.getId());
+        taskVO.setEnlistNum(detailList.size());
+        Integer isEnlist = YesNo.no.getIndex();
+        for(TaskDetail item : detailList){
+            if(SessionLocal.getRequireWorkerId().equals(item.getWorkerId())){
+                isEnlist = YesNo.yes.getIndex();
+            }
+        }
+        taskVO.setIsEnlist(isEnlist);
     }
 }

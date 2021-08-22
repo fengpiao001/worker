@@ -98,4 +98,14 @@ public class TaskVO {
      * 任务状态 0-草稿，10-招聘中，20-进行中，30-已完成，40-已终止
      */
     private Integer taskStatus;
+
+    /**
+     * 已报名人数
+     */
+    private Integer enlistNum;
+
+    /**
+     * 是否已报名 1-是  0-否
+     */
+    private Integer isEnlist;
 }
