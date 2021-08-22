@@ -46,4 +46,11 @@ public interface TaskService extends IService<Task> {
      */
     public Page<List<Task>> list(TaskQuery taskQuery);
 
+    /**
+     * 根据id查询任务详情
+     * @param id
+     * @return
+     */
+    public Task detail(Long id);
+
 }

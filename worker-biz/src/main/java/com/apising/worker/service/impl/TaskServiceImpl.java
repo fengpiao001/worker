@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -114,9 +115,13 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
      */
     @Override
     public List<TaskDetailVO> getTaskDetailByTaskId(Long taskId) {
+        Assert.notNull(taskId,"任务id不能为空");
         List<TaskDetail> detailList = getTaskDetailListByTaskId(taskId);
         List<TaskDetailVO> voList = BaseConvertor.changeList(detailList,TaskDetailVO.class);
         List<Long> workerIds = voList.stream().map(e->e.getWorkerId()).collect(Collectors.toList());
+        if(CollectionUtils.isEmpty(workerIds)){
+            return voList;
+        }
         List<Worker> workers = workerMapper.selectBatchIds(workerIds);
         Map<Long,Worker> workerMap = workers.stream().collect(Collectors.toMap(e->e.getId(),e->e));
         for(TaskDetailVO item : voList){
@@ -147,5 +152,12 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
         IPage<Task> iPage = taskMapper.selectPage(PageUtil.pageToMybatisPage(query), queryWrapper);
 
         return PageUtil.mybatisPageToPage(iPage);
+    }
+
+
+    @Override
+    public Task detail(Long id) {
+        Assert.notNull(id,"任务id不能为空");
+        return taskMapper.selectById(id);
     }
 }

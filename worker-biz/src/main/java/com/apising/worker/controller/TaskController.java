@@ -52,6 +52,11 @@ public class TaskController {
         return Result.success(taskService.list(query));
     }
 
+    @RequestMapping("/detail")
+    public Result<Task> detail(Long id){
+        return Result.success(taskService.detail(id));
+    }
+
 
 
 }
