@@ -22,12 +22,16 @@ public class BaseConvertor {
 	 * @return
 	 * @throws Exception
 	 */
-	public static <S, T> T change(S src, Class<T> targetClazz) throws Exception {
+	public static <S, T> T change(S src, Class<T> targetClazz){
 		if (src == null)
 			return null;
-		T target = targetClazz.newInstance();
-		BeanUtils.copyProperties(src, target);
-		return target;
+		try {
+			T target = targetClazz.newInstance();
+			BeanUtils.copyProperties(src, target);
+			return target;
+		}catch (Exception e){
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**

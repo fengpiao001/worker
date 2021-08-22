@@ -11,6 +11,7 @@ import com.apising.worker.domain.Worker;
 import com.apising.worker.domain.enums.TaskStatus;
 import com.apising.worker.domain.vo.TaskDetailVO;
 import com.apising.worker.domain.vo.TaskQuery;
+import com.apising.worker.domain.vo.TaskVO;
 import com.apising.worker.mapper.TaskDetailMapper;
 import com.apising.worker.mapper.TaskMapper;
 import com.apising.worker.mapper.WorkerMapper;
@@ -156,8 +157,16 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
 
 
     @Override
-    public Task detail(Long id) {
+    public TaskVO detail(Long id) {
         Assert.notNull(id,"任务id不能为空");
-        return taskMapper.selectById(id);
+        Task task = taskMapper.selectById(id);
+        TaskVO taskVO = BaseConvertor.change(task,TaskVO.class);
+        completeVO(taskVO);
+        return taskVO;
+    }
+
+
+    private void completeVO(TaskVO taskVO){
+
     }
 }
